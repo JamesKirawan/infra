@@ -1,0 +1,9 @@
+@import '@core/scss/angular/libs/ratings.component.scss';
+.custom-img {
+  // width: auto; 
+  max-width: 100%;
+  // max-height: 30vh;
+}
+.item-wrapper{
+  align-items: flex-end !important;
+}

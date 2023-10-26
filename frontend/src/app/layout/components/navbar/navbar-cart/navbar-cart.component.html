@@ -1,0 +1,83 @@
+<li ngbDropdown class="nav-item dropdown-cart mr-25">
+  <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarCartDropdown"
+    ><span [data-feather]="'shopping-cart'" [class]="'ficon'"></span
+    ><span class="badge badge-pill badge-primary badge-up cart-item-count">{{ cartLength }}</span></a
+  >
+  <ul
+    ngbDropdownMenu
+    aria-labelledby="navbarCartDropdown"
+    class="dropdown-menu dropdown-menu-media dropdown-menu-right"
+    style="width: 40rem;"
+  >
+    <!-- Cart header -->
+    <li class="dropdown-menu-header">
+      <div class="dropdown-header d-flex">
+        <h4 class="notification-title mb-0 mr-auto">My Cart</h4>
+        <div class="badge badge-pill badge-light-primary">{{ cartLength }} Items</div>
+      </div>
+    </li>
+    <!--/ Cart header -->
+
+    <!-- Cart content -->
+    <li class="scrollable-container media-list" [perfectScrollbar]>
+      <ng-container *ngIf="cart.length">
+        <ng-container *ngFor="let item of cart">
+          <div class="media align-items-center">
+            <img class="d-block rounded mr-1" [src]="env.apiUrl + '/' + item.product.imagePath" alt="donuts" width="62" />
+            <div class="media-body mr-3">
+              <button class="btn p-0" (click)="removeFromCart(item.productId)">
+                <i class="ficon cart-item-remove" data-feather="x"></i>
+              </button>
+              <div class="media-heading" fxFlex="50">
+                <h6 class="cart-item-title">
+                  <a class="text-body" [routerLink]="'/products/' + item.productId">
+                    {{ item.product?.productName }}
+                  </a>
+                </h6>
+                <small class="cart-item-by">{{ item.product?.productBrand }}</small>
+              </div>
+              <div class="cart-item-qty">
+                <div class="input-group touchspin-cart">
+                  <ng-container *ngIf="item?.product">
+                    <core-touchspin [numberValue]="item.productQty" (onChange)="qtyChanged($event,item.productId)" [stepValue]="1" [minValue]="1" [maxValue]="item.product.productStock || 1"></core-touchspin>
+                  </ng-container>
+                </div>
+              </div>
+              <h5 class="cart-item-price">Rp{{ item.product?.productPrice * item.productQty | mask:'separator':',' }}</h5>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </li>
+    <!--/ Cart content -->
+
+    <!-- Cart footer -->
+    <li class="dropdown-menu-footer">
+      <div class="d-flex justify-content-between mb-1">
+        <h6 class="font-weight-bolder mb-0">Total:</h6>
+        <!-- <h6 class="text-primary font-weight-bolder mb-0">Rp 0</h6> -->
+        <h6 class="text-primary font-weight-bolder mb-0">Rp{{ total | mask:'separator':','}}</h6>
+      </div>
+      <a class="btn btn-primary btn-block" routerLink="/checkout">Checkout</a>
+    </li>
+    <!--/ Cart footer -->
+  </ul>
+</li>
+
+
+<!-- <ng-template #modalForm let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel1">Add New Product</h4>
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="onSubmit()" rippleEffect>
+      Save
+    </button>
+  </div>
+</ng-template> -->

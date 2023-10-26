@@ -1,0 +1,14 @@
+GET http://localhost:5000/products?page=0&size=3
+
+###
+POST http://localhost:5000/products
+Content-Type: application/json
+
+{
+    "productName" : "Product 10",
+    "productSummary" : "This is product Summary",
+    "productDesc" : "This is Product Description",
+    "productBrand" : "Product Bran",
+    "productPrice" : "10000000",
+    "productStock" : 5
+}

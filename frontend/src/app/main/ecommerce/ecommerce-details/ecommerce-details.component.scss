@@ -1,0 +1,18 @@
+@import '@core/scss/base/pages/app-ecommerce-details.scss';
+@import '@core/scss/angular/libs/swiper.component.scss';
+@import '@core/scss/angular/libs/ratings.component.scss';
+@import '@core/scss/base/pages/app-chat.scss';
+@import '@core/scss/base/pages/app-chat-list.scss';
+@import '@core/scss/base/components/include'; // Components includes
+
+// Dark Layout
+.dark-layout {
+  .chat-content{
+    background-color: #404d6f !important;
+    color: white !important;
+  }
+  .user-chats, .chat-app-form {
+    background-color: $theme-dark-card-bg !important;
+    border: 1px solid $theme-dark-border-color;
+  }
+}

@@ -1,0 +1,34 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <!-- content-header component -->
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+
+    <!-- Basic Alerts start -->
+    <section id="sample-page">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">{{ 'SAMPLE.AWESOME' | translate }}</h4>
+            </div>
+            <div class="card-text">
+              <p>{{sidebarData[0]}}</p>
+            </div>
+            <div class="card-body pb-1">
+              <button class="btn btn-relief-primary" (click)="toggleSidebar()">Sidebar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Basic Alerts end -->
+
+    <core-sidebar
+    class="modal modal-slide-in fade event-sidebar"
+    name="sample-sidebar"
+    overlayClass="modal-backdrop"
+    hideOnEsc="true">
+      <app-sample-sidebar></app-sample-sidebar>
+    </core-sidebar>
+  </div>
+</div>

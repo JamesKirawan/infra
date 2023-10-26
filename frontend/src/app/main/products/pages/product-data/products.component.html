@@ -1,0 +1,309 @@
+<ng-template #modalForm let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="myModalLabel1">Add New Product</h4>
+      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <form action="#" [formGroup]="ProductForm">
+        <div class="row">
+          <div class="col-md-4 col-12 py-2">
+            <div class="row" style="justify-content: center;">
+              <img [src]="imagePath" width="250" class="img-fluid">
+            </div>
+            <ngx-file-drop (onFileDrop)="drop($event)" [dropZoneClassName]="'ngx-fileupload__ngx-file-drop'" [showBrowseBtn]="true" [browseBtnLabel]="'Browse'">
+            </ngx-file-drop>
+          </div>
+          <div class="col-md-8 col-12">
+            <div class="row" style="row-gap:1rem">
+              <div class="col-md-6 col-12">
+                <div class="form-group">
+                  <label>Name: </label>
+                  <input 
+                    type="text" 
+                    placeholder="Product Name" 
+                    class="form-control" 
+                    formControlName="productName"  
+                    [ngClass]="{ 'is-invalid': submitted && f.productName.errors }"
+                    />
+                    <div *ngIf="submitted && f.productName.errors" class="invalid-feedback">
+                      <div *ngIf="f.productName.errors.required">Name is required</div>
+                    </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-12">
+                <div class="form-group">
+                  <label>Brand: </label>
+                  <ng-select
+                      [items]="brandList$ | async"
+                      bindLabel="DISTINCT"
+                      bindValue="DISTINCT"
+                      class="w-100"
+                      placeholder="Product Brand"
+                      formControlName="productBrand"
+                      addTag="true"
+                    >
+                    </ng-select>
+                    <div *ngIf="submitted && f.productBrand.errors" class="invalid-feedback" [class.d-block]="f.productBrand.errors">
+                      <div *ngIf="f.productBrand.errors.required">Brand is required</div>
+                    </div>
+                </div>
+              </div>
+              
+              <div class="col-md-3 col-12">
+                <div class="form-group">
+                  <label>Category: </label>
+                  <ng-select
+                      [items]="categoryList$ | async"
+                      bindLabel="DISTINCT"
+                      bindValue="DISTINCT"
+                      class="w-100"
+                      placeholder="Product Category"
+                      formControlName="productCategory"
+                      addTag="true"
+                    >
+                    </ng-select>
+                    <div *ngIf="submitted && f.productCategory.errors" class="invalid-feedback" [class.d-block]="f.productCategory.errors">
+                      <div *ngIf="f.productCategory.errors.required">Category is required</div>
+                    </div>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-12">
+                <div class="form-group">
+                  <label>Price: </label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">Rp</span>
+                    </div>
+                    <input 
+                    type="text" 
+                    mask="separator"
+                    thousandSeparator="," 
+                    placeholder="0" 
+                    class="form-control" 
+                    formControlName="productPrice" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-12">
+                <div class="form-group">
+                  <label>Discount: </label>
+                  <ng-select
+                      [items]="discountList$ | async"
+                      bindLabel="discountName"
+                      bindValue="discountId"
+                      class="w-100"
+                      (change)="discountChange($event)"
+                    >
+                    <ng-template ng-label-tmp let-item="item">
+                      {{ item.discountName }} - {{ item.discountPercent }}%
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item">
+                      {{ item.discountName }} - {{ item.discountPercent }}%
+                    </ng-template>
+                    </ng-select>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-12">
+                <div class="form-group">
+                  <label>Stock: </label>
+                  <input type="text" mask="separator" thousandSeparator="," placeholder="Product Stock" class="form-control" formControlName="productStock" />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="summary" class="mt-1">Summary: </label>
+              <fieldset style="flex: 0 0 100%">
+                <textarea 
+                class="form-control" 
+                rows="4" id="summary" 
+                placeholder="Summary" 
+                formControlName="productSummary"
+                [ngClass]="{ 'is-invalid': submitted && f.productSummary.errors }"
+                ></textarea>
+              </fieldset>
+              <div *ngIf="submitted && f.productSummary.errors" class="invalid-feedback" [class.d-block]="f.productSummary.errors">
+                <div *ngIf="f.productSummary.errors.required">Summary is required</div>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="desc" class="mt-1">Desc: </label>
+              <fieldset style="flex: 0 0 100%"  >
+                <textarea 
+                class="form-control" 
+                rows="4" 
+                id="desc" 
+                placeholder="Description" 
+                formControlName="productDesc"
+                [ngClass]="{ 'is-invalid': submitted && f.productDesc.errors }"
+                ></textarea>
+              </fieldset>
+              <div *ngIf="submitted && f.productDesc.errors" class="invalid-feedback" [class.d-block]="f.productDesc.errors">
+                <div *ngIf="f.productDesc.errors.required">Description is required</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="onSubmit()" rippleEffect>
+        Save
+      </button>
+    </div>
+</ng-template>
+
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <section id="ngx-datatable-row-details">
+      <div class="card" [formGroup]="ProductFilterForm">
+        <div class="card-header">
+          <h4 class="card-title">Products</h4>
+        </div>
+          <div class="row">
+            <div class="col-12 mb-50">
+              <button class="btn btn-primary ml-1" (click)="modalOpenForm(modalForm)" rippleEffect>
+                <i data-feather="plus" class="mr-0 mr-sm-1"></i>
+                <span class="d-none d-sm-inline-block">Add New Product</span>
+              </button>
+              <!-- <a csvLink [data]="exportCSVData" class="btn btn-outline-secondary float-right mr-1" rippleEffect>
+                Export CSV
+              </a> -->
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="d-flex justify-content-between align-items-center m-1">
+                <label class="d-flex align-items-center">
+                  Show
+                  <select class="form-control mx-25" formControlName="size" (selectionChange)="loadProducts()">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                  entries
+                </label>
+              </div>
+            </div>
+            <div class="col-md-6 col-12 d-flex justify-content-md-end">
+              <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0">
+                <label class="d-flex align-items-center"
+                  >Search<input
+                    type="search"
+                    placeholder="Search"
+                    class="form-control ml-25"
+                    (input)="search($event)"
+                /></label>
+              </div>
+            </div>
+          </div>
+        <ngx-datatable
+            #tableRowDetails
+            class="bootstrap core-bootstrap"
+            [columnMode]="ColumnMode.flex"
+            [headerHeight]="40"
+            [footerHeight]="50"
+            [rowHeight]="58"
+            [limit]="10"
+            [rows]="productList"
+            [scrollbarH]="true"
+            [rowIdentity]="identity"
+          >
+            <!-- Row Detail Template -->
+            <ngx-datatable-row-detail [rowHeight]="'100%'">
+              <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                <app-product-detail [data]="row"></app-product-detail>
+              </ng-template>
+            </ngx-datatable-row-detail>
+
+            <ngx-datatable-column
+              [flexGrow]="0"
+              [width]="30"
+              [resizeable]="false"
+              [sortable]="false"
+              [draggable]="false"
+              [canAutoResize]="false"
+            >
+              <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                <a
+                  href="javascript:void(0)"
+                  class="text-body"
+                  [class.datatable-icon-right]="!expanded"
+                  [class.datatable-icon-down]="expanded"
+                  title="Expand/Collapse Row"
+                  (click)="rowDetailsToggleExpand(row)"
+                >
+                </a>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Name" prop="productName" [flexGrow]="3">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="d-flex align-items-center">
+                  <!-- <div *ngIf="row.avatar?.length > 0; else customAvatar">
+                    <img
+                      class="rounded-circle mr-1"
+                      src="assets/images/portrait/small/{{ row.avatar }}"
+                      height="32"
+                      width="32"
+                      alt="datatable-avatar"
+                    />
+                  </div>
+                  <ng-template #customAvatar>
+                    <div
+                      class="avatar mr-1 ml-0"
+                      [ngClass]="{
+                        'bg-light-primary': row.status == '1',
+                        'bg-light-success': row.status == '2',
+                        'bg-light-danger': row.status == '3',
+                        'bg-light-warning': row.status == '4',
+                        'bg-light-info': row.status == '5'
+                      }"
+                    >
+                      <div class="avatar-content">{{ name | initials }}</div>
+                    </div>
+                  </ng-template> -->
+                  <div class="cell-line-height">
+                    <p class="font-medium-1 line-height-1 mb-0">{{ row.productName }}</p>
+                    <span class="text-muted font-small-2"> {{ row.productCategory }}</span>
+                  </div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Brand" prop="productBrand" [flexGrow]="1.5">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Price" prop="productPrice" [flexGrow]="2">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <ng-container *ngIf="row.beforeDiscount; else NormalPrice">
+                  <span>
+                    <s>{{ row.beforeDiscount | currency:'IDR ':'symbol':'3.0' }}</s>
+                  </span>
+                  <span>
+                    {{ row.productPrice | currency:'IDR ':'symbol':'3.0' }}
+                  </span>
+                </ng-container>
+                <ng-template #NormalPrice>
+                  <span>
+                    {{ row.productPrice | currency:'IDR ':'symbol':'3.0' }}
+                  </span>
+                </ng-template>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Stock" prop="productStock" [flexGrow]="1"></ngx-datatable-column>
+            <ngx-datatable-column name="Discount" prop="product_discount" [flexGrow]="1.5">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <div class="badge badge-pill badge-light-primary" *ngIf="row.product_discount">
+                  {{ row.product_discount.discountName }} - {{ row.product_discount.discountPercent}}%
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </section>
+  </div>
+</div>

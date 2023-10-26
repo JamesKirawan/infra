@@ -1,0 +1,152 @@
+
+<form action="#" [formGroup]="ProductForm" class="p-2">
+  <div class="row">
+    <div class="col-12 col-md-4 d-flex flex-column justify-content-center mb-2 mb-md-0">
+      <div class="d-flex align-items-start justify-content-center">
+        <swiper class="swiper-coverflow swiper-container" [config]="swiperResponsive1" (indexChange)="onIndexChange($event)">
+          <ng-container *ngFor="let image of ProductViewModel?.product_galleries">
+            <img [src]="env.apiUrl + '/' + image.imagePath" (click)="onImageClick($event.target.currentSrc)" class="img-fluid product-img" alt="{{image.imageName}}" />
+          </ng-container>
+        </swiper>
+      </div>
+      <ngx-file-drop (onFileDrop)="drop($event)" [dropZoneClassName]="'ngx-fileupload__ngx-file-drop container-fluid'">
+        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+            <div class="m-auto">
+              <button class="btn btn-primary mr-2" (click)="openFileSelector()">Browse</button>
+              <button class="btn btn-danger" (click)="deleteImage()"> Delete </button>
+            </div>
+          </ng-template>
+        </ngx-file-drop>
+    </div>
+    <div class="col-md-8 col-12">
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <div class="form-group">
+            <label>Name: </label>
+            <input
+              matInput
+              type="text" 
+              placeholder="Product Name" 
+              class="form-control"
+              formControlName="productName"  
+              [ngClass]="{ 'is-invalid': submitted && f.productName.errors }"
+              />
+              <div *ngIf="submitted && f.productName.errors" class="invalid-feedback">
+                <div *ngIf="f.productName.errors.required">Name is required</div>
+              </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-12">
+          <div class="form-group">
+            <label>Brand: </label>
+            <input 
+              type="text" 
+              placeholder="Product Brand"
+              class="form-control" 
+              formControlName="productBrand" 
+              [ngClass]="{ 'is-invalid': submitted && f.productBrand.errors }"
+              [matAutocomplete]="autocomplete2"
+              />
+              <mat-autocomplete #autocomplete2="matAutocomplete">
+                <mat-option *ngFor="let brand of brandList$ | async" [value]="brand.DISTINCT">
+                  {{ brand.DISTINCT }}
+                </mat-option>
+              </mat-autocomplete>
+              <div *ngIf="submitted && f.productBrand.errors" class="invalid-feedback">
+                <div *ngIf="f.productBrand.errors.required">Brand is required</div>
+              </div>
+          </div>
+        </div>
+        
+        <div class="col-md-3 col-12">
+          <div class="form-group">
+            <label>Category: </label>
+            <input 
+              type="text" 
+              placeholder="Product Brand"
+              class="form-control" 
+              formControlName="productCategory" 
+              [ngClass]="{ 'is-invalid': submitted && f.productCategory.errors }"
+              [matAutocomplete]="autocomplete1"/>
+              <mat-autocomplete #autocomplete1="matAutocomplete">
+                <mat-option *ngFor="let category of categoryList$ | async" [value]="category.DISTINCT">
+                  {{ category.DISTINCT }}
+                </mat-option>
+              </mat-autocomplete>
+              <div *ngIf="submitted && f.productCategory.errors" class="invalid-feedback">
+                <div *ngIf="f.productCategory.errors.required">Category is required</div>
+              </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-12">
+          <div class="form-group">
+            <label>Price: </label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Rp</span>
+              </div>
+              <input type="text" mask="separator" thousandSeparator="," placeholder="0" class="form-control" formControlName="productPrice" />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-12">
+          <div class="form-group">
+            <label>Discount: </label>
+            <ng-select
+                [items]="discountList$ | async"
+                bindLabel="discountName"
+                bindValue="discountId"
+                class="w-100"
+                (change)="discountChange($event)"
+                formControlName="product_discount"
+              >
+              <ng-template ng-label-tmp let-item="item">
+                {{ item.discountName }} - {{ item.discountPercent }}%
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item">
+                {{ item.discountName }} - {{ item.discountPercent }}%
+              </ng-template>
+              </ng-select>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-12">
+          <div class="form-group">
+            <label>Stock: </label>
+            <input type="text" mask="separator" thousandSeparator="," placeholder="Product Stock" class="form-control" formControlName="productStock" />
+          </div>
+        </div>
+      </div>
+      <div class="form-group" >
+        <label for="summary">Summary: </label>
+        <fieldset style="flex: 0 0 100%">
+          <textarea class="form-control" rows="2" id="summary" placeholder="Summary" formControlName="productSummary"></textarea>
+        </fieldset>
+        <div *ngIf="submitted && f.productSummary.errors" class="invalid-feedback">
+          <div *ngIf="f.productSummary.errors.required">Summary is required</div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="desc">Desc: </label>
+        <fieldset style="flex: 0 0 100%">
+          <textarea class="form-control" rows="4" id="desc" placeholder="Description" formControlName="productDesc"></textarea>
+        </fieldset>
+        <div *ngIf="submitted && f.productDesc.errors" class="invalid-feedback">
+          <div *ngIf="f.productDesc.errors.required">Description is required</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<div fxFlexLayout="row" fxLayoutAlign="end center" class="p-2">
+  <button type="button" class="btn btn-danger mr-2" (click)="confirmDelete()" rippleEffect>
+    Delete
+  </button>
+  <button type="button" class="btn btn-primary" (click)="onSubmit()" rippleEffect>
+    Save
+  </button>
+</div>

@@ -1,0 +1,223 @@
+<div class="auth-wrapper auth-v2">
+  <div class="auth-inner row m-0">
+    <!-- Brand logo--><a class="brand-logo" href="javascript:void(0);">
+      <img src="{{ coreConfig.app.appLogoImage }}" alt="brand-logo" height="28" />
+      <h2 class="brand-text text-primary ml-1">Vuexy</h2></a
+    >
+    <!-- /Brand logo-->
+    <!-- Left Text-->
+    <div class="d-none d-lg-flex col-lg-7 align-items-center p-5">
+      <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
+        <img
+          class="img-fluid"
+          [src]="
+            coreConfig.layout.skin === 'dark'
+              ? 'assets/images/pages/register-v2-dark.svg'
+              : 'assets/images/pages/register-v2.svg'
+          "
+          alt="Register V2"
+        />
+      </div>
+    </div>
+    <!-- /Left Text-->
+    <!-- Register-->
+    <div class="d-flex col-lg-5 align-items-center auth-bg px-4 py-2">
+      <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
+        <h2 class="card-title font-weight-bold mb-1">Register 🚀</h2>
+        <ngb-alert type="danger" [dismissible]="false" *ngIf="error">
+          <div class="alert-body">
+            <p>{{ error }}</p>
+          </div>
+        </ngb-alert>
+        <ngb-alert type="success" [dismissible]="false" *ngIf="success">
+          <div class="alert-body">
+            <p>{{ success }}</p>
+          </div>
+        </ngb-alert>
+        <form class="auth-register-form mt-2" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="register-name" class="form-label">Name</label>
+                <input
+                  type="text"
+                  formControlName="name"
+                  class="form-control"
+                  placeholder="Name"
+                  aria-describedby="register-name"
+                  tabindex="1"
+                  autofocus
+                  [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+                />
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                  <div *ngIf="f.name.errors.required">Name is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="form-group">
+                <label for="register-username" class="form-label">Username</label>
+                <input
+                  type="text"
+                  formControlName="userName"
+                  class="form-control"
+                  placeholder="johndoe"
+                  aria-describedby="register-username"
+                  tabindex="2"
+                  autofocus
+                  [ngClass]="{ 'is-invalid': submitted && f.userName.errors }"
+                />
+                <div *ngIf="submitted && f.userName.errors" class="invalid-feedback">
+                  <div *ngIf="f.userName.errors.required">Username is required</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-email" class="form-label">Email</label>
+            <input
+              type="text"
+              formControlName="email"
+              class="form-control"
+              placeholder="john@example.com"
+              aria-describedby="register-email"
+              tabindex="3"
+              [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+            />
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+              <div *ngIf="f.email.errors.required">Email is required</div>
+              <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-phoneNo" class="form-label">Phone Number</label>
+            <input
+              type="text"
+              formControlName="phoneNo"
+              class="form-control"
+              placeholder="Phone Number"
+              aria-describedby="register-phoneNo"
+              tabindex="4"
+              autofocus
+              [ngClass]="{ 'is-invalid': submitted && f.phoneNo.errors }"
+            />
+            <div *ngIf="submitted && f.phoneNo.errors" class="invalid-feedback">
+              <div *ngIf="f.phoneNo.errors.required">Phone number is required</div>
+              <div *ngIf="f.phoneNo.errors.pattern">Phone number must be number only</div>
+              <div *ngIf="f.phoneNo.errors.maxlength">Phone number max 15 digits</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-address" class="form-label">Address</label>
+            <input
+              type="text"
+              formControlName="address"
+              class="form-control"
+              placeholder="Address"
+              aria-describedby="register-address"
+              tabindex="5"
+              autofocus
+              [ngClass]="{ 'is-invalid': submitted && f.address.errors }"
+            />
+            <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+              <div *ngIf="f.address.errors.required">address is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-password" class="form-label">Password</label>
+
+            <div class="input-group input-group-merge form-password-toggle">
+              <input
+                [type]="passwordTextType ? 'text' : 'password'"
+                formControlName="password"
+                class="form-control form-control-merge"
+                placeholder="············"
+                aria-describedby="register-password"
+                tabindex="6"
+                [ngClass]="{ 'is-invalid error': submitted && f.password.errors }"
+              />
+              <div class="input-group-append">
+                <span class="input-group-text cursor-pointer"
+                  ><i
+                    class="feather font-small-4"
+                    [ngClass]="{
+                      'icon-eye-off': passwordTextType,
+                      'icon-eye': !passwordTextType
+                    }"
+                    (click)="togglePasswordTextType()"
+                  ></i
+                ></span>
+              </div>
+            </div>
+            <div
+              *ngIf="submitted && f.password.errors"
+              class="invalid-feedback"
+              [ngClass]="{ 'd-block': submitted && f.password.errors }"
+            >
+              <div *ngIf="f.password.errors.required">Password is required</div>
+              <div *ngIf="f.password.errors.minlength">Password min 8 characters</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-confPassword" class="form-label">Confirm Password</label>
+            <div class="input-group input-group-merge form-password-toggle">
+              <input
+                [type]="passwordTextType ? 'text' : 'password'"
+                formControlName="confPassword"
+                class="form-control form-control-merge"
+                placeholder="············"
+                aria-describedby="register-confPassword"
+                tabindex="7"
+                [ngClass]="{ 'is-invalid error': submitted && f.confPassword.errors }"
+              />
+              <div class="input-group-append">
+                <span class="input-group-text cursor-pointer"
+                  ><i
+                    class="feather font-small-4"
+                    [ngClass]="{
+                      'icon-eye-off': passwordTextType,
+                      'icon-eye': !passwordTextType
+                    }"
+                    (click)="togglePasswordTextType()"
+                  ></i
+                ></span>
+              </div>
+            </div>
+            <div
+              *ngIf="submitted && f.confPassword.errors"
+              class="invalid-feedback"
+              [ngClass]="{ 'd-block': submitted && f.confPassword.errors }"
+            >
+              <div *ngIf="f.confPassword.errors.required">Password Required</div>
+              <div *ngIf="f.confPassword.errors.mismatch">Password do not match</div>
+              <div *ngIf="f.confPassword.errors.minlength">Password min 8 characters</div>
+            </div>
+          </div>
+          <!-- <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input class="custom-control-input" type="checkbox" id="register-privacy-policy" tabindex="4" />
+              <label class="custom-control-label" for="register-privacy-policy">
+                I agree to <a href="javascript:void(0);">privacy policy & terms</a>
+              </label>
+            </div>
+          </div> -->
+          <button class="btn btn-primary btn-block" tabindex="8" rippleEffect>Sign up</button>
+        </form>
+        <p class="text-center mt-2">
+          <span>Already have an account?</span
+          ><a routerLink="/auth/login"><span>&nbsp;Sign in instead</span></a>
+        </p>
+        <!-- <div class="divider my-2">
+          <div class="divider-text">or</div>
+        </div>
+        <div class="auth-footer-btn d-flex justify-content-center">
+          <a class="btn btn-facebook" href="javascript:void(0)"><i data-feather="facebook"></i></a
+          ><a class="btn btn-twitter white" href="javascript:void(0)"><i data-feather="twitter"></i></a
+          ><a class="btn btn-google" href="javascript:void(0)"><i data-feather="mail"></i></a
+          ><a class="btn btn-github" href="javascript:void(0)"><i data-feather="github"></i></a>
+        </div> -->
+      </div>
+    </div>
+    <!-- /Register-->
+  </div>
+</div>

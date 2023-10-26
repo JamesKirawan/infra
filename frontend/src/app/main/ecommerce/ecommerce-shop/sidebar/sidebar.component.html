@@ -1,0 +1,112 @@
+<!-- Ecommerce Sidebar Starts -->
+<div class="row mt-1 d-none d-lg-block">
+  <div class="col-sm-12">
+    <h6 class="filter-heading">Filters</h6>
+  </div>
+</div>
+<div class="card h-100">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12">
+        <h6 class="filter-title mt-0">Categories</h6>
+          <div class="form-group">
+            <ng-select
+              [items]="categoryList$ | async"
+              bindLabel="DISTINCT"
+              bindValue="DISTINCT"
+              placeholder="Filter category"
+              [(ngModel)]="category"
+              >
+            </ng-select>
+          </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <h6 class="filter-title mt-0">Brands</h6>
+          <div class="form-group">
+            <ng-select
+              [items]="brandList$ | async"
+              bindLabel="DISTINCT"
+              bindValue="DISTINCT"
+              [multiple]="true"
+              placeholder="Filter brand"
+              [closeOnSelect]="false"
+              [(ngModel)]="brand"
+              >
+            </ng-select>
+          </div> 
+      </div>
+    </div>
+
+    <div class="mt-2">
+      <button class="btn btn-primary btn-block" (click)="filterBrand()">Filter</button>
+    </div>
+    <!-- Brand ends -->
+
+    <!-- Rating starts -->
+    <!-- <div id="ratings">
+      <h6 class="filter-title">Ratings</h6>
+      <div class="ratings-list">
+        <a href="javascript:void(0)">
+          <span class="rating rating-sm">
+            <ngb-rating [rate]="4" [readonly]="true" [max]="5" class="outline-none">
+              <ng-template let-fill="fill" let-index="index"
+                ><span class="fa fa-star-o mr-25" [class.fa-star]="fill === 100"></span
+              ></ng-template>
+            </ngb-rating>
+          </span>
+          & up
+        </a>
+        <div class="stars-received">160</div>
+      </div>
+      <div class="ratings-list">
+        <a href="javascript:void(0)">
+          <span class="rating rating-sm">
+            <ngb-rating [rate]="3" [readonly]="true" [max]="5" class="outline-none">
+              <ng-template let-fill="fill" let-index="index"
+                ><span class="fa fa-star-o mr-25" [class.fa-star]="fill === 100"></span
+              ></ng-template>
+            </ngb-rating>
+          </span>
+          & up
+        </a>
+        <div class="stars-received">176</div>
+      </div>
+      <div class="ratings-list">
+        <a href="javascript:void(0)">
+          <span class="rating rating-sm">
+            <ngb-rating [rate]="2" [readonly]="true" [max]="5" class="outline-none">
+              <ng-template let-fill="fill" let-index="index"
+                ><span class="fa fa-star-o mr-25" [class.fa-star]="fill === 100"></span
+              ></ng-template>
+            </ngb-rating>
+          </span>
+          & up
+        </a>
+        <div class="stars-received">291</div>
+      </div>
+      <div class="ratings-list">
+        <a href="javascript:void(0)">
+          <span class="rating rating-sm">
+            <ngb-rating [rate]="1" [readonly]="true" [max]="5" class="outline-none">
+              <ng-template let-fill="fill" let-index="index"
+                ><span class="fa fa-star-o mr-25" [class.fa-star]="fill === 100"></span
+              ></ng-template>
+            </ngb-rating>
+          </span>
+          & up
+        </a>
+        <div class="stars-received">190</div>
+      </div>
+    </div> -->
+    <!-- Rating ends -->
+
+    <!-- Clear Filters Starts -->
+    <!-- <div id="clear-filters">
+      <button type="button" class="btn btn-block btn-primary" rippleEffect>Clear All Filters</button>
+    </div> -->
+    <!-- Clear Filters Ends -->
+  </div>
+</div>
+<!-- Ecommerce Sidebar Ends -->

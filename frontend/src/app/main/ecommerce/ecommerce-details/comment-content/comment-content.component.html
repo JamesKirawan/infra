@@ -1,0 +1,85 @@
+<div class="body-content-overlay"></div>
+<!-- Main chat area -->
+<section class="chat-app-window">
+  <!-- Active Chat -->
+  <div class="active-chat">
+    <!-- Chat Header -->
+    <div class="chat-navbar">
+    </div>
+    <!--/ Chat Header -->
+
+    <!-- User Chat messages -->
+    <div class="user-chats" [ngClass]="{'dark-layout':currSkin === 'dark'}" [perfectScrollbar] #scrollMe [scrollTop]="scrolltop" style="max-height: 50vh;">
+      <div class="chats">
+        <div
+          class="chat chat-left d-flex align-items-center"
+          *ngFor="let comment of comments"
+        >
+          <div class="chat-avatar d-flex align-items-start" style="padding:1rem">
+            <span class="avatar box-shadow-1 cursor-pointer">
+              <ng-container *ngIf="comment.user.userAvatar; else defaultAvatar">
+                <img [src]="env.apiUrl + '/' + comment.user.userAvatar" alt="avatar" height="55" width="55" />
+              </ng-container>
+              <ng-template #defaultAvatar>
+                <img [src]="env.apiUrl + '/avatars/unknown.png'" alt="avatar" height="55" width="55" />
+              </ng-template>
+            </span>
+          </div>
+          <div class="chat-body d-flex" fxFlex="90">
+            <div class="d-flex flex-column">
+              <div class="ml-1" [ngClass]="{'text-danger':comment.user.role === 'Admin'}">
+                {{ comment.user.userName }}
+                <ng-container *ngIf="user?.userId === comment.user.userId">
+                  <span style="cursor: pointer"><i data-feather="edit"></i></span>
+                  <span style="cursor: pointer" (click)="deleteComment(comment.commentId)"><i data-feather="trash-2"></i></span>
+                </ng-container>
+              </div>
+              <div class="chat-content" [ngClass]="{'dark-layout':currSkin === 'dark'}" style="width: fit-content;max-width: 65vw;">
+                <p>{{ comment.commentText }}</p>              
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- User Chat messages -->
+
+    <!-- Submit Chat form -->
+    <div class="d-flex chat-app-form" [ngClass]="{'dark-layout':currSkin === 'dark'}">
+      <div fxFlex="none" class="mr-1">
+        <div class="chat-avatar d-flex align-items-start" style="padding:.7rem">
+          <span class="avatar box-shadow-1 cursor-pointer">
+            <ng-container *ngIf="user.userAvatar; else defaultAvatar">
+              <img [src]="env.apiUrl + '/' + user.userAvatar" alt="avatar" height="40" width="40" />
+            </ng-container>
+            <ng-template #defaultAvatar>
+              <img [src]="env.apiUrl + '/avatars/unknown.png'" alt="avatar" height="40" width="40" />
+            </ng-template>
+          </span>
+        </div>
+      </div>
+      <div fxFlex>
+        <div class="input-group input-group-merge mr-1 form-send-message">
+          <input
+            type="text"
+            name="commentText"
+            id="commentText"
+            autocomplete="off"
+            class="form-control"
+            placeholder="Type your comment"
+            [(ngModel)]="commentText"
+          />
+        </div>
+      </div>
+      <div class="d-flex justify-content-center" fxFlex="7">
+        <button type="button" class="btn btn-primary send"  (click)="addComment()" rippleEffect>
+          <i data-feather="send" class="d-lg-none"></i>
+          <span class="d-none d-lg-block">Send</span>
+        </button>
+      </div>
+    </div>
+    <!--/ Submit Chat form -->
+  </div>
+  <!--/ Active Chat -->
+</section>
+<!--/ Main chat area -->

@@ -1,0 +1,47 @@
+<div class="card ecommerce-card">
+  <div class="item-img">
+    <a [routerLink]="'/products/' + product.productId">
+      <img [src]="image" alt="img-placeholder" />
+    </a>  
+  </div>
+  <div class="card-body">
+    <div class="item-name">
+      <h6 class="mb-0">
+        <a [routerLink]="'/products/' + product.productId" class="text-body">{{ product.productName }}</a>
+      </h6>
+      <span class="item-company mr-50"
+        >By <a href="javascript:void(0)" class="company-name">{{ product.productBrand }}</a></span
+      >
+      <ng-container *ngIf="product.discountId">
+        <span class="badge badge-light-info">{{ product.product_discount.discountPercent}}% off</span>
+      </ng-container>
+    </div>
+    <span class="text-success mb-1">{{ product.productStock | mask:'separator':',' }} In Stock</span>
+    <div class="item-quantity">
+      <span class="quantity-title">Qty:</span>
+      <div class="quantity-counter-wrapper">
+        <core-touchspin #spin [numberValue]="item.productQty" (onChange)="qtyChanged($event,item.productId)" [stepValue]="1" [minValue]="1" [maxValue]="product.productStock"></core-touchspin>
+      </div>
+    </div>
+    <span class="delivery-date text-muted">Delivery by, {{ deliverDate | date:'dd MMM YYYY'}}</span>
+  </div>
+  <div class="item-options text-center">
+    <div class="item-wrapper">
+      <div class="item-cost d-flex flex-column">
+        <ng-container *ngIf="product.discountId">
+          <h5 class="item-price"><s>Rp{{ product.beforeDiscount | mask:'separator':','}}</s></h5>  
+        </ng-container>
+        <h4 class="item-price">Rp{{ product.productPrice | mask:'separator':','}}</h4>
+      </div>
+    </div>
+    <button type="button" class="btn btn-light mt-1 remove-wishlist" (click)="removeFromCart(product.productId)" rippleEffect>
+      <i data-feather="x" class="align-middle mr-25"></i>
+      <span>Remove</span>
+    </button>
+    <button type="button" class="btn btn-primary btn-cart move-cart" (click)="toggleWishList(product.productId)" rippleEffect>
+      <i class="fa mr-25" [ngClass]="isInWishlist === true ? 'fa-heart text-danger' : 'fa-heart-o'"></i>
+      <span class="text-truncate">Add to Wishlist</span>
+    </button>
+  </div>
+</div>
+<!-- [ngClass]="product.isInWishlist === true ? 'fa-heart text-white' : 'fa-heart-o'" -->

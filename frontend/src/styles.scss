@@ -1,0 +1,19 @@
+@import '@core/scss/core.scss';
+@import './assets/scss/styles';
+@import '@core/scss/angular/libs/datatables.component.scss';
+@import '@core/scss/base/pages/ui-feather.scss';
+@import '@core/scss/angular/libs/toastr.component.scss';
+@import '~@ng-select/ng-select/themes/default.theme.css';
+@import '@core/scss/angular/libs/select.component.scss';
+@import '@core/scss/base/colors';
+@import '@core/scss/base/components/include'; // Components includes
+
+datatable-body, datatable-scroller{
+  width: 100% !important;
+}
+
+#ecommerce-sidebar-toggler{
+  z-index: 998 !important;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
